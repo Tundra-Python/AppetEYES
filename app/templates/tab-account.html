@@ -1,5 +1,22 @@
 <ion-view title="Account">
   <ion-content class="has-header padding">
     <h1>Account</h1>
+
+	        <!-- EMAIL -->
+	        <div class="form-group">
+	            <label>Email</label>
+	            <input ng-model="user.email" style="border:solid grey; padding:30px; margin:5px" type="text" name="email" required>
+	        </div>
+	        <!-- PASSWORD -->
+	        <div class="form-group">
+	            <label>Password</label>
+	            <input ng-model="user.password" style="border:solid grey; padding:30px; margin:5px" type="text" name="password" required>
+	        </div>
+	        
+	        <button type="submit" ng-click="submitForm()">Submit</button>	
+
+	        <button type="submit" ng-click="signUp()">Sign Up</button>// not working yet
+	        
+
   </ion-content>
 </ion-view>
