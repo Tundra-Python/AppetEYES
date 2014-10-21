@@ -1,11 +1,19 @@
 'use strict';
 angular.module('Appeteyes.controllers', [])
 
-.controller('DashCtrl', function($scope) {
+.controller('DashCtrl', function($scope,Fooder) {
+	$scope.food = Fooder.getRandomPic();
+	$scope.changePic = function(input){
+		if(input){
+			Fooder.addToSelection($scope.food);
+		}
+		$scope.food = Fooder.getRandomPic();
+	};
+
 })
 
-.controller('FriendsCtrl', function($scope, Friends) {
-  $scope.friends = Friends.all();
+.controller('FriendsCtrl', function($scope, Fooder) {
+  $scope.foods = Fooder.getSelected();
 })
 
 .controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
@@ -13,4 +21,8 @@ angular.module('Appeteyes.controllers', [])
 })
 
 .controller('AccountCtrl', function($scope) {
+	$scope.user = {};
+	$scope.submitForm = function(){
+		console.log($scope.user);
+	}
 });
