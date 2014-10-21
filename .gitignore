@@ -2,7 +2,6 @@ node_modules
 www
 .tmp
 .sass-cache
-app/lib
 coverage
 platforms
 plugins
@@ -10,5 +9,3 @@ plugins
 *.swo
 *.log
 *.DS_Store
-
-app/scripts/config.js
