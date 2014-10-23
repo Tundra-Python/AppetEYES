@@ -80,7 +80,8 @@ angular.module('Appeteyes.services', [])
 
 .factory('Auth', function ($http, $location, $window, $state) {
 
-  var token;
+  var tokenKey = 'com.appeteyes';
+
   var login = function (user) {
     return $http({
       method: 'POST',
@@ -109,19 +110,19 @@ angular.module('Appeteyes.services', [])
   var isAuth = function () {
     console.log(!!token);
     // return !!token;
-    return !!$window.localStorage.getItem('com.appeteyes');
+    return !!$window.localStorage.getItem(tokenKey);
   };
 
   var signout = function () {
-    $window.localStorage.removeItem('com.appeteyes');
+    $window.localStorage.removeItem(tokenKey);
     // $location.path('/tab.account');
   };
 
   var setToken = function(givenToken){
-    $window.localStorage.setItem('com.appeteyes', givenToken);
+    $window.localStorage.setItem(tokenKey, givenToken);
   };
   var getToken = function(){
-    return !!$window.localStorage.getItem('com.appeteyes');
+    return $window.localStorage.getItem(tokenKey);
   };
 
   return {
@@ -129,9 +130,9 @@ angular.module('Appeteyes.services', [])
     signup: signup,
     isAuth: isAuth,
     signout: signout,
-    token:token,
-    setToken:setToken,
-    getToken:getToken
+    token: token,
+    setToken: setToken,
+    getToken: getToken
   };
 })
 
@@ -161,7 +162,6 @@ angular.module('Appeteyes.services', [])
 
   //object to be updated by controller based on user input. Later to be sent to server.
   var userPreferences = {
-    token: 0,
     cuisines: [],
     location: '',
   };
@@ -173,13 +173,16 @@ angular.module('Appeteyes.services', [])
     },
 
     //retrieves stored user preferences from server/db
-    importPreferences: function($http){
+    importPreferences: function(){
 
       //send GET request to server - use response data to fill userSettings
       var promise = $http.get('/users/preferences')
         .then(function(data){
           userPreferences.cuisines = data.cuisines;
           userPreferences.location = data.location;
+        })
+        .error(function(error){
+          console.log(error);
         })
 
       return userPreferences;
@@ -188,7 +191,6 @@ angular.module('Appeteyes.services', [])
     //takes an object with all preferences saved
     //and updates factory userSettings and sends preferences
     savePreferences: function(newPreferences){
-      userPreferences.token = newPreferences.token;
       userPreferences.cuisines = newPreferences.cuisines;
       userPreferences.location = newPreferences.location;
       //send POST request to server with userSettings as data

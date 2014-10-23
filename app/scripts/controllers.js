@@ -116,14 +116,16 @@ angular.module('Appeteyes.controllers', [])
 
   $scope.importUserPreferences = function(token){
     //uncommenting when importing from factory/server works
-    //$scope.userPreferences = Preferences.importPreferences('abc');
+
+    //get token from local storage
+    var localToken = Auth.getToken();
+    $scope.userPreferences = Preferences.importPreferences(localToken);
 
     //remove once importing from factory/server works
-    $scope.userPreferences = {
-      token: 56,
-      cuisines: ['Thai', 'American', 'Japanese'],
-      location: 'San Francisco',
-    };
+    // $scope.userPreferences = {
+    //   cuisines: ['Thai', 'American', 'Japanese'],
+    //   location: 'San Francisco',
+    // };
 
     //pre-select options from imported preferences
     //set the imported cuisines
