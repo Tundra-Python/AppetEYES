@@ -1,0 +1,33 @@
+<ion-view title="Preferences">
+  <ion-content>
+      <ion-list>
+        <div ng-repeat="preference in preferencesList">
+          <ion-item class="item-stable"
+                    ng-click="toggle(preference)"
+                    ng-class="{active: isExpanded(preference)}">
+              <i class="icon" ng-class="isExpanded(preference) ? 'ion-minus' : 'ion-plus'"></i>
+            &nbsp;
+            {{preference.name}}
+          </ion-item>
+          <ion-item class="item-accordion"
+                    ng-class="{selected: isSelected(preference, option)}"
+                    ng-repeat="option in preference.options"
+                    ng-show="isExpanded(preference)"
+                    ng-click="select(preference, option)">
+              <div class="preference">{{option}}</div>
+              <form ng-show="isCity(preference, option)" class="city">
+                <input ng-model="locationInput"
+                       ng-change ="addCity(locationInput)" 
+                       type="text" 
+                       class="city-input"/>
+              </form>
+          </ion-item>
+        </div>
+      </ion-list>
+      <button class="button ion-left ion-checkmark-circled button-assertive button-full"
+        ng-click="saveTheSettings(locationInput)">
+        Save Preferences
+      </button>
+    </ion-content>
+</ion-view>
+
