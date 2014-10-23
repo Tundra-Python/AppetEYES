@@ -130,7 +130,7 @@ angular.module('Appeteyes.services', [])
     signup: signup,
     isAuth: isAuth,
     signout: signout,
-    token: token,
+    //token: token,
     setToken: setToken,
     getToken: getToken
   };
@@ -178,12 +178,13 @@ angular.module('Appeteyes.services', [])
       //send GET request to server - use response data to fill userSettings
       var promise = $http.get('/users/preferences')
         .then(function(data){
+          console.log('data immediately from GET', data);
           userPreferences.cuisines = data.cuisines;
           userPreferences.location = data.location;
         })
-        .error(function(error){
-          console.log(error);
-        })
+        // .error(function(error){
+        //   console.log(error);
+        // })
 
       return userPreferences;
     },
