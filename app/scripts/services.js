@@ -79,7 +79,7 @@ angular.module('Appeteyes.services', [])
 })
 
 .factory('Auth', function ($http, $location, $window, $state) {
-
+  var token;
   var tokenKey = 'com.appeteyes';
 
   var login = function (user) {
@@ -130,7 +130,7 @@ angular.module('Appeteyes.services', [])
     signup: signup,
     isAuth: isAuth,
     signout: signout,
-    //token: token,
+    token: token,
     setToken: setToken,
     getToken: getToken
   };
