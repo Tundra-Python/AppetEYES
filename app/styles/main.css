@@ -1,1 +1,41 @@
 /* Your application styles go here */
+.list .item.item-accordion {
+  line-height: 38px;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: 0.09s all linear;
+}
+.list .item.item-accordion.ng-hide {
+  line-height: 0px;
+}
+.list .item.item-accordion.ng-hide-add,
+.list .item.item-accordion.ng-hide-remove {
+  display: block !important;
+}
+
+.setting-list {
+  height: 40px;
+  background-color: #7DE8CA;
+  text-align: center;
+  border-bottom: 1px solid #000;
+}
+
+.selected {
+  background-color: #7DE8CA;
+}
+
+.preference {
+  float: left;
+  padding-right: 16px;
+}
+
+.city{
+  float: left;
+}
+
+input.city-input{
+  box-sizing: border-box;
+  padding-left: 6px;
+  margin-top: 2px;
+  border-radius: 5px;
+}

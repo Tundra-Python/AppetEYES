@@ -96,4 +96,54 @@ angular.module('Appeteyes.controllers', [])
 		Auth.signout();
 	};
 
+})
+
+.controller('PreferencesCtrl', function($scope, Preferences, Auth) {
+
+  //an object that holds the state of what is currently selected
+  $scope.selectedOption = {
+    'Location': {},
+    'Cuisines': {}
+  };
+
+  $scope.importUserPreferences = function(token){
+    //uncommenting when importing from factory/server works
+
+    //get token from local storage
+    var localToken = Auth.getToken();
+    $scope.userPreferences = Preferences.importPreferences(localToken);
+    console.log('user prefs pulled from db on load', $scope.userPreferences);
+
+    //remove once importing from factory/server works
+    // $scope.userPreferences = {
+    //   cuisines: ['Thai', 'American', 'Japanese'],
+    //   location: 'San Francisco',
+    // };
+
+    //pre-select options from imported preferences
+    //set the imported cuisines
+    for (var i=0; i<$scope.userPreferences.cuisines.length; i++){
+     $scope.selectedOption.Cuisines[$scope.userPreferences.cuisines[i]] = $scope.userPreferences.cuisines[i];
+    }
+    
+    //set the imported location
+    if($scope.userPreferences.location === 'GPS'){
+      $scope.selectedOption.Location['Use GPS'] = 'Use GPS';
+      $scope.locationInput = '';
+    } else {
+      $scope.selectedOption.Location['Enter City'] = 'Enter City';
+      $scope.locationInput = $scope.userPreferences.location;
+    }
+  };
+  $scope.importUserPreferences('abc');
+
+  //an array of objects that populates the preferences tab
+  $scope.preferencesList = [
+    { name: 'Location',
+      options: ['Use GPS', 'Enter City']
+    },
+    { name: 'Cuisines',
+      options: Preferences.listCuisines()
+    }
+  ];
 });
