@@ -1,7 +1,7 @@
 <ion-view title="My Foodies">
-	 <ion-content class="has-header padding">
+	 <ion-content class="">
 			<div class="list">
-		    <a class="item item-avatar" ui-sref="tab.friend-detail({name:food.name})" ng-repeat = 'food in foods'>
+		    <a class="item item-avatar" ui-sref="tab.foodDetail({name:food.name})" ng-repeat = 'food in foods'>
 		      <img ng-src="{{food.link}}" height = "40" width = '40'>
 		      <h2>{{food.name}}</h2>
 		      <p>I love this food!</p>

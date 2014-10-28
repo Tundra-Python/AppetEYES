@@ -1,6 +1,6 @@
-var User = require('./user-model.js'),
-    Q    = require('q'),
-    jwt  = require('jwt-simple');
+var User = require('./user-model.js');
+var Q    = require('q');
+var jwt  = require('jwt-simple');
 
 module.exports = {
   
@@ -33,7 +33,7 @@ module.exports = {
   },//end signin
 
   signup: function (req, res, next) {
-
+    console.log('Imma signing up');
     var username  = req.body.username,
         password  = req.body.password,
         create,
@@ -51,7 +51,9 @@ module.exports = {
           create = Q.nbind(User.create, User);
           newUser = {
             username: username,
-            password: password
+            password: password,
+            cuisines: [],
+            location: 'San Francisco'
           };
           return create(newUser);
         }
@@ -93,18 +95,15 @@ module.exports = {
   }, //end checkAuth
 
   decode: function (req, res, next) {
-
+    
     var token = req.headers['x-access-token'];
     var user;
-
     if (!token) {
       return res.send(403); // send forbidden if a token is not provided
     }
-
     try {
       // decode token and attach user to the request
       // for use inside our controllers
-      console.log('helpers');
       user = jwt.decode(token, 'secret');
       req.username = user.username;
       next();

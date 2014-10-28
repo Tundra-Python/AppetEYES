@@ -1,91 +1,219 @@
 'use strict';
 angular.module('Appeteyes.services', [])
 
-/**
- * A simple example service that returns some data.
- */
-.factory('Friends', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var friends = [
-    { id: 0, name: 'Scruff McGruff' },
-    { id: 1, name: 'G.I. Joe' },
-    { id: 2, name: 'Miss Frizzle' },
-    { id: 3, name: 'Ash Ketchum' }
-  ];
-
-
-
-  return {
-    all: function() {
-      return friends;
-    },
-    get: function(friendId) {
-      // Simple index lookup
-      return friends[friendId];
-    }
-  };
-})
-
 .factory('Fooder',function(){
 
 
-  var pictures = [{
-      link:'http://dicaspm.com/wp-content/uploads/2013/12/churrasco1.jpg',
-      name:'Delicious Sirloin' 
-    },
-  {link:'http://www.mercadomineiro.com.br/adminpreco/upload/churrasqueiro-pesquisa-precos.jpg', name:'Juicy Steak'},
-  {link:'http://upload.wikimedia.org/wikipedia/commons/5/59/Churrasco.jpg',name:'Tender Dream'}
-  ];
-
-  var selected = [];
+  var selected = {};
+  var disliked = {};
+  var picArr = [];
 
   return {
-    all: function() {
-      return pictures;
+    isNotLoaded:true,
+    addPics:function(arr){
+      picArr = arr;
     },
-    get: function(foodId) {
-      // Simple index lookup
-      return pictures[foodId];
-    },
-    getRandomPic:function(){
-      var randomizer = Math.floor(Math.random() * (pictures.length - 1));
-      return pictures[randomizer];
+    currentPics:function(){
+      return picArr;
     },
     addToSelection:function(image){
-      selected.push(image);
+      selected[image.name] = image;
+      console.log(selected);
+    },
+    addToDisliked:function(image){
+      disliked[image.name] = image;
+      console.log(disliked);
     },
     getSelected:function(){
       return selected;
     },
-    searchFood:function(name){
-      for(var i = 0;i < selected.length;i++ ){
-        if(selected[i].name === name){
-          return selected[i];
-        }
+    getDisliked:function(){
+      return disliked;
+    },
+    resetPics:function(){
+      picArr = [];
+    },
+    setLiked: function(priorLikes){
+      for (var key in priorLikes){
+        selected[key] = priorLikes[key];
       }
-      return {
+    },
+    searchFood:function(name){
+      console.log('Looking for this on selected',name);
+      if(selected[name]=== undefined){
+        return {
             name:'Not Found'
         };
-      }
-    };
+      }else{
+        return selected[name];
+      } 
+    }
+  };
 })
 
 .factory('Yelper',function($http){
 
   return {
-    search:function(category,location){
+    search: function(category, location, offset){
       console.log('Searching for',category,location);
       var parsedLoc = location.split(' ').join('-');
       console.log('This is the thin',parsedLoc);
-      var yelpUrl = category + '*' + parsedLoc;
+      var yelpUrl = category + '*' + parsedLoc + '*' + offset;
       return $http.get('/yelp/' + yelpUrl);
-      
     },
-    pics:function(){
+    pics: function(){
       // return pictures;
     }
   };
-});
+})
 
+.factory('Auth', function ($http, $location, $window, $state, Preferences) {
+
+  var tokenKey = 'com.appeteyes'
+
+  var login = function (user) {
+    return $http({
+      method: 'POST',
+      url: '/users/signin',
+      data: user
+    })
+    .then(function (resp) {
+      if (resp.data.token) {
+        $state.transitionTo('tab.appeteyes');
+        Preferences.getLiked(function(priorLikes){
+          Fooder.setLikes(priorLikes);
+        });
+      } else {
+        $state.transitionTo('tab.account');
+      }
+      setToken(resp.data.token);
+    });
+  };
+
+  var signup = function (user) {
+    return $http({
+      method: 'POST',
+      url: '/users/signup',
+      data: user
+    })
+    .then(function (resp) {
+      setToken(resp.data.token);
+      if (resp.data.token) $state.transitionTo('tab.appeteyes');
+    });
+  };
+
+  var isAuth = function () {
+    return !!$window.localStorage.getItem(tokenKey);
+  };
+
+  var signout = function () {
+    $window.localStorage.removeItem(tokenKey);
+  };
+
+  var setToken = function(givenToken){
+    $window.localStorage.setItem(tokenKey, givenToken);
+  };
+
+  var getToken = function(){
+    return $window.localStorage.getItem(tokenKey);
+  };
+
+  return {
+    login: login,
+    signup: signup,
+    isAuth: isAuth,
+    signout: signout,
+    setToken:setToken,
+    getToken:getToken
+  };
+
+})
+
+//Holds the logic for users to set up their 'preferences'
+.factory('Preferences', function($http){
+  //temp storage mechanism for cuisine types
+  var cuisines = [
+    'Give Me Random!',
+    'Italian',
+    'Thai',
+    'American',
+    'French',
+    'Japanese',
+    'Chinese',
+    'Seafood',
+    'Ethopian/Eritrean',
+    'Burmese',
+    'Mexican',
+    'Mediterranean',
+    'Middle Eastern',
+    'Soul Food',
+    'Korean',
+    'Brazilian',
+    'German',
+    'Dessert'
+  ];
+
+  //object to be updated by controller based on user input. Later to be sent to server.
+  var userPreferences = {
+    cuisines: ['food'],
+    location: 'San-Francisco'
+  };
+
+  return {
+    //takes an array as a parameter and outputs array to controller
+    listCuisines: function(){
+      return cuisines;
+    },
+
+    preferences: function(){
+      return userPreferences;
+    },
+
+    //retrieves stored user preferences from server/db
+    importPreferences: function(callback){
+
+      //send GET request to server - use response data to fill userSettings
+      $http.get('/users/preferences')
+        .then(function(data){
+          console.log('data immediately from GET', data);
+          userPreferences.cuisines = data.data.cuisines;
+          userPreferences.location = data.data.location;
+          if (callback) {
+            callback(data.data);
+          }
+        })
+        .catch(function(error){
+          console.log('error in importing preferences ', error);
+        });
+
+      return userPreferences;
+
+    },
+
+    //takes an object with all preferences saved
+    //and updates factory userSettings and sends preferences
+    savePreferences: function(newPreferences){
+      userPreferences.cuisines = newPreferences.cuisines;
+      userPreferences.location = newPreferences.location;
+      //send POST request to server with userSettings as data
+      var promise = $http.post('/users/preferences', userPreferences);
+
+      console.log('now I just send a post');
+      console.log(userPreferences);
+    },
+
+    getLiked: function(callback){
+      $http({
+        method: 'GET',
+        url: '/users/likes'
+      })
+      .then(function(result){
+        callback(result);
+      })
+      .catch(function(error){
+        console.log('error in getting liked pictures', error);
+      });
+    }
+
+  };
+});

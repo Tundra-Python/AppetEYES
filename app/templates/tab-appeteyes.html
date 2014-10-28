@@ -1,0 +1,33 @@
+<ion-view hide-nav-bar="true" title="Appeteyes">
+  <ion-content class="">
+	
+  <div class='list'>
+<!-- 		<div class='item item-avatar'>
+			<h2>{{food.name}}</h2>
+			<div class="list">
+			  <label class="item item-input">
+			    <span class="input-label">Type of Food</span>
+			    <input type="text" ng-model='queryFood'>
+			  </label>
+			  <label class="item item-input">
+			    <span class="input-label">Location</span>
+			    <input type="text" ng-model='queryLocation'>
+			  </label>
+			</div>
+			<button ng-click='getPics(queryFood,queryLocation)'>Hit me</button>
+		</div> -->
+		<button class=' button button-block button-positive' ng-class='{"button-balanced":loveIt,"button-assertive":hateIt}'>
+			{{like}}	
+		</button>  
+		<div class='item item-image'  on-swipe-right='changePic(true)' on-swipe-left='changePic(false)' on-drag-right = 'sliding("right")' on-drag-left = 'sliding("left")' on-release='sliding()'>
+			<img ng-src = '{{food.link}}'>  
+		</div>
+	</div>
+
+	<div class = 'control'>
+		<!-- <button class='button button-block button-outline button-positive"'ng-click='changePic(true)'>
+			Like it 
+		</button> -->
+	</div>
+  </ion-content>
+</ion-view>
