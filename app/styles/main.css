@@ -39,3 +39,34 @@ input.city-input{
   margin-top: 2px;
   border-radius: 5px;
 }
+
+.swipe.button.button-block,
+.button.button-full {
+margin: 0;
+border: 0;
+}
+
+
+/*This builds a mobile sized container on full size browser screens*/
+@media (min-width: 1000px) {
+/*  #mobile {
+    height: 667px;
+    width: 357px;
+    border-radius: 8px;
+    border: 1px solid #000;
+    margin: 0 auto;
+    z-index: 99;
+    background-color: green;
+  }*/
+  .view {
+    max-width: 356px;
+    max-height: 667px;
+    border: 1px solid #000;
+    margin: 0 auto;
+  }
+  ion-nav-bar.bar {
+    max-width: 357px;
+    margin: 0 auto;
+    padding: 5px, 4px;
+  }
+}
