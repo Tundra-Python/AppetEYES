@@ -64,7 +64,7 @@ angular.module('Appeteyes.controllers', [])
 
   //Wrapper for the Yelp Interaction
   $scope.getPics = function(category, location, offset){
-    console.log($scope.isNotLoaded, location)
+
     if($scope.isNotLoaded){
       var promise = Yelper.search(category, location, offset);
       promise.then(function(data){

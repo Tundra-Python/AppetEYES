@@ -58,7 +58,7 @@ angular.module('Appeteyes', ['ionic', 'config', 'Appeteyes.controllers', 'Appete
           controller: 'AppeteyesCtrl'
         }
       },
-      // authenticate:true
+      authenticate:true
       // // resolve:{
       // //   Yelper:'Yelper',
       // //   Pics:function(Yelper){
@@ -77,7 +77,7 @@ angular.module('Appeteyes', ['ionic', 'config', 'Appeteyes.controllers', 'Appete
           controller: 'MyFoodiesCtrl'
         }
       },
-      // authenticate:true
+      authenticate:true
     })
 
     .state('tab.foodDetail', {
