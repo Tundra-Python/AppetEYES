@@ -151,7 +151,7 @@ angular.module('Appeteyes.services', [])
 })
 
 //Holds the logic for users to set up their 'preferences'
-.factory('Preferences', function($http){
+.factory('Preferences', function($http, $state){
   //temp storage mechanism for cuisine types
   
   var cuisines = [
@@ -216,10 +216,10 @@ angular.module('Appeteyes.services', [])
       userPreferences.cuisines = newPreferences.cuisines;
       userPreferences.location = newPreferences.location;
       //send POST request to server with userSettings as data
-      var promise = $http.post('/users/preferences', userPreferences);
-
-      console.log('now I just send a post');
-      console.log(userPreferences);
+      $http.post('/users/preferences', userPreferences)
+        .then(function(){
+          state.transitionTo('tab.appeteyes');
+        })
     },
 
     getLiked: function(callback){
