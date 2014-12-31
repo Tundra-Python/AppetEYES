@@ -62,8 +62,7 @@ angular.module('Appeteyes.services', [])
       }
       var parsedLoc = location.split(' ').join('-');
       console.log('This is the thin',parsedLoc);
-      var yelpUrl = category + '*' + parsedLoc + '*' + offset;
-      return $http.get('/yelp/' + yelpUrl);
+      return $http.get('/yelp/search' + searchData);
     },
     pics: function(){
       // return pictures;
