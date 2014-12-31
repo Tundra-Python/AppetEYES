@@ -48,25 +48,20 @@ border: 0;
 
 
 /*This builds a mobile sized container on full size browser screens*/
-@media (min-width: 1000px) {
-/*  #mobile {
-    height: 667px;
-    width: 357px;
-    border-radius: 8px;
-    border: 1px solid #000;
-    margin: 0 auto;
-    z-index: 99;
-    background-color: green;
-  }*/
+@media (min-width: 800px) {
   .view {
     max-width: 356px;
     max-height: 667px;
     border: 1px solid #000;
     margin: 0 auto;
+    border-radius: 12px;
   }
   ion-nav-bar.bar {
     max-width: 357px;
     margin: 0 auto;
     padding: 5px, 4px;
+  }
+  ion-nav-view {
+    background-color: #f3f3f3;
   }
 }

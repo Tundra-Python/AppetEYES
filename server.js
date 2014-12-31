@@ -13,8 +13,8 @@ app.use(bodyParser.json());
 console.log('Starting APP');
 
 //Mongo DB Connection
-var mongoUrl = process.env.port ? "mongodb://MongoLab-s:mFZxpWu8Pi.eNBqD4fBHxSXXg0DI.egdrUzjN8j3lsA-@ds041157.mongolab.com:41157/MongoLab-s" : 'mongodb://localhost/appteys';
-mongoose.connect(mongoUrl);
+// var mongoUrl = process.env.port ? "mongodb://MongoLab-s:mFZxpWu8Pi.eNBqD4fBHxSXXg0DI.egdrUzjN8j3lsA-@ds041157.mongolab.com:41157/MongoLab-s" : 'mongodb://localhost/appteys';
+// mongoose.connect(mongoUrl);
 
 //user-signin routes
 app.post('/users/signin', user.signin);
@@ -26,7 +26,8 @@ app.get('/users/signedin', user.checkAuth);
 app.use(user.decode);
 
 //get yelp search results
-app.get('/yelp/*', yelp.refinedSearch);
+//app.get('/yelp/*', yelp.refinedSearch);
+app.post('/yelp/search', yelp.refinedSearch);
 
 //user-picture history changes
 app.get('/users/likes', imageInfo.getUserLikes);
