@@ -125,12 +125,11 @@ angular.module('Appeteyes.controllers', [])
   });
 })
 
-.controller('FoodDetailCtrl', function($scope, $stateParams, Fooder) {
+.controller('FoodDetailCtrl', function($scope, $stateParams, $state, Fooder) {
   $scope.food = Fooder.searchFood($stateParams.name);
   console.log($scope.food);
   $scope.back = function(){
-    console.log('hi');
-    $state.transitionTo('tab.account');
+    $state.transitionTo('tab.myFoodies');
   }
 })
 
