@@ -113,7 +113,7 @@ angular.module('Appeteyes.controllers', [])
 
 })
 
-.controller('MyFoodiesCtrl', function($scope, Fooder, $http) {
+.controller('MyFoodiesCtrl', function($scope, Fooder, $state, $http) {
   $scope.foods = Fooder.getSelected();
   $http({
     method: 'GET',
