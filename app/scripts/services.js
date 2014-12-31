@@ -54,8 +54,12 @@ angular.module('Appeteyes.services', [])
 .factory('Yelper',function($http){
 
   return {
-    search: function(category, location, offset){
-      console.log('Searching for',category,location);
+    search: function(categories, location, offset){
+      var searchData = {
+        categories: categories, //array
+        location: location, //string
+        offset: offset  //number
+      }
       var parsedLoc = location.split(' ').join('-');
       console.log('This is the thin',parsedLoc);
       var yelpUrl = category + '*' + parsedLoc + '*' + offset;
@@ -155,7 +159,7 @@ angular.module('Appeteyes.services', [])
 
   //object to be updated by controller based on user input. Later to be sent to server.
   var userPreferences = {
-    cuisines: ['food'],
+    cuisines: [],
     location: 'San-Francisco'
   };
 
@@ -196,10 +200,11 @@ angular.module('Appeteyes.services', [])
       userPreferences.cuisines = newPreferences.cuisines;
       userPreferences.location = newPreferences.location;
       //send POST request to server with userSettings as data
-      var promise = $http.post('/users/preferences', userPreferences);
-
-      console.log('now I just send a post');
-      console.log(userPreferences);
+      
+      $http.post('/users/preferences', userPreferences)
+        .then(function(){
+          $state.transitionTo('tab.appeteyes');
+        })
     },
 
     getLiked: function(callback){
