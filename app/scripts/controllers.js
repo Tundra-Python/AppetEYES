@@ -6,8 +6,7 @@ angular.module('Appeteyes.controllers', [])
   Preferences.importPreferences(function(newPreferences){
     $scope.cuisines = newPreferences.cuisines;
     $scope.location = newPreferences.location;
-    // $scope.getPics($scope.cuisines[0], $scope.location, $scope.offset);
-    $scope.getPics($scope.cuisines, $scope.location, $scope.offset);
+    $scope.getPics($scope.cuisines[0], $scope.location, $scope.offset);
   });
 
   //Local Cache with Response from the Yelp API
@@ -41,13 +40,12 @@ angular.module('Appeteyes.controllers', [])
   $scope.firstPic = function(){
     if ($scope.pics.length < 6) {
       $scope.isNotLoaded = true;
-      //$scope.getPics($scope.cuisines[0], $scope.location, $scope.offset);
-      $scope.getPics($scope.cuisines, $scope.location, $scope.offset);
+      $scope.getPics($scope.cuisines[0], $scope.location, $scope.offset);
     }
     return $scope.pics.shift();
   };
 
-  //Models for Dynamic Classes used on the top-button
+  //Models for Dinamic Classes used on the top-button
   $scope.loveIt = false;
   $scope.hateIt = false;
   //Used to handle the Like and Hate Button
@@ -65,10 +63,10 @@ angular.module('Appeteyes.controllers', [])
   $scope.mood = '"button-positive"';
 
   //Wrapper for the Yelp Interaction
+  $scope.getPics = function(category, location, offset){
 
-  $scope.getPics = function(categories, location, offset){
     if($scope.isNotLoaded){
-      var promise = Yelper.search(categories, location, offset);
+      var promise = Yelper.search(category, location, offset);
       promise.then(function(data){
         console.log(data);
         $scope.pics = $scope.pics.concat(data.data);
@@ -93,35 +91,6 @@ angular.module('Appeteyes.controllers', [])
     }
 
   };
-
-  // $scope.getPics = function(category, location, offset){
-
-  //   if($scope.isNotLoaded){
-  //     var promise = Yelper.search(category, location, offset);
-  //     promise.then(function(data){
-  //       console.log(data);
-  //       $scope.pics = $scope.pics.concat(data.data);
-  //       $scope.changePic();
-  //       Fooder.addPics($scope.pics);
-  //       Fooder.isNotLoaded = false;
-  //       $scope.offset += 20;
-  //       $http({
-  //         method: 'POST',
-  //         url: '/restaurant/info',
-  //         data: data
-  //       })
-  //       .then(function(res){
-  //         console.log(res.status);
-  //       })
-  //       .catch(function(error){
-  //         console.log('$scope.getPics error', error);
-  //       });
-  //     },function(error){
-  //       console.log(error);
-  //     });
-  //   }
-
-  // };
 
   $scope.$on('$locationChangeStart', function(){
 
