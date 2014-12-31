@@ -39,3 +39,22 @@ input.city-input{
   margin-top: 2px;
   border-radius: 5px;
 }
+
+/*This builds a mobile sized container on full size browser screens*/
+@media (min-width: 800px) {
+  .view {
+    max-width: 356px;
+    max-height: 667px;
+    border: 1px solid #000;
+    margin: 0 auto;
+    border-radius: 12px;
+  }
+  ion-nav-bar.bar {
+    max-width: 357px;
+    margin: 0 auto;
+    padding: 5px, 4px;
+  }
+  ion-nav-view {
+    background-color: #f3f3f3;
+  }
+}
