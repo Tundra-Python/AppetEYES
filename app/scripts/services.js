@@ -54,39 +54,18 @@ angular.module('Appeteyes.services', [])
 .factory('Yelper',function($http){
 
   return {
-    search: function(categories, location, offset){
-      searchData = {
-        categories: categories, //array
-        location: location, //string
-        offset: offset  //number
-      }
-      console.log('Searching for',categories,location);
+    search: function(category, location, offset){
+      console.log('Searching for',category,location);
       var parsedLoc = location.split(' ').join('-');
       console.log('This is the thin',parsedLoc);
-      var yelpUrl = categories + '*' + parsedLoc + '*' + offset;
-      return $http.post('/yelp/search', searchData);
+      var yelpUrl = category + '*' + parsedLoc + '*' + offset;
+      return $http.get('/yelp/' + yelpUrl);
     },
     pics: function(){
       // return pictures;
     }
   };
 })
-
-// .factory('Yelper',function($http){
-
-//   return {
-//     search: function(category, location, offset){
-//       console.log('Searching for',category,location);
-//       var parsedLoc = location.split(' ').join('-');
-//       console.log('This is the thin',parsedLoc);
-//       var yelpUrl = category + '*' + parsedLoc + '*' + offset;
-//       return $http.get('/yelp/' + yelpUrl);
-//     },
-//     pics: function(){
-//       // return pictures;
-//     }
-//   };
-// })
 
 .factory('Auth', function ($http, $location, $window, $state, Preferences) {
 
@@ -151,10 +130,10 @@ angular.module('Appeteyes.services', [])
 })
 
 //Holds the logic for users to set up their 'preferences'
-.factory('Preferences', function($http, $state){
+.factory('Preferences', function($http){
   //temp storage mechanism for cuisine types
-  
   var cuisines = [
+    'Give Me Random!',
     'Italian',
     'Thai',
     'American',
@@ -162,7 +141,7 @@ angular.module('Appeteyes.services', [])
     'Japanese',
     'Chinese',
     'Seafood',
-    'Ethopian',
+    'Ethopian/Eritrean',
     'Burmese',
     'Mexican',
     'Mediterranean',
@@ -170,7 +149,8 @@ angular.module('Appeteyes.services', [])
     'Soul Food',
     'Korean',
     'Brazilian',
-    'German'
+    'German',
+    'Dessert'
   ];
 
   //object to be updated by controller based on user input. Later to be sent to server.
@@ -216,10 +196,10 @@ angular.module('Appeteyes.services', [])
       userPreferences.cuisines = newPreferences.cuisines;
       userPreferences.location = newPreferences.location;
       //send POST request to server with userSettings as data
-      $http.post('/users/preferences', userPreferences)
-        .then(function(){
-          state.transitionTo('tab.appeteyes');
-        })
+      var promise = $http.post('/users/preferences', userPreferences);
+
+      console.log('now I just send a post');
+      console.log(userPreferences);
     },
 
     getLiked: function(callback){
