@@ -142,7 +142,7 @@ angular.module('Appeteyes.services', [])
     'Japanese',
     'Chinese',
     'Seafood',
-    'Ethopian/Eritrean',
+    'Ethopian',
     'Burmese',
     'Mexican',
     'Mediterranean',
