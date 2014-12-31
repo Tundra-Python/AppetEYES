@@ -135,7 +135,6 @@ angular.module('Appeteyes.services', [])
 .factory('Preferences', function($http, $state){
   //temp storage mechanism for cuisine types
   var cuisines = [
-    'Give Me Random!',
     'Italian',
     'Thai',
     'American',
@@ -151,8 +150,7 @@ angular.module('Appeteyes.services', [])
     'Soul Food',
     'Korean',
     'Brazilian',
-    'German',
-    'Dessert'
+    'German'
   ];
 
   //object to be updated by controller based on user input. Later to be sent to server.
