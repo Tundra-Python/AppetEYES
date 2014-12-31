@@ -66,7 +66,7 @@ exports.refinedSearch = function(req, res) {
         city:result['businesses'][i].location.city
       });
     }
-    
+
     return res.json(200, arr);
   });
 };
