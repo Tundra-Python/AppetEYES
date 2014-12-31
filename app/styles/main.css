@@ -46,6 +46,11 @@ margin: 0;
 border: 0;
 }
 
+ion-header-bar.swipe h1.title{
+  color: #fff;
+  font-weight: bold;
+}
+
 /*This builds a mobile sized container on full size browser screens*/
 @media (min-width: 800px) {
   .view {

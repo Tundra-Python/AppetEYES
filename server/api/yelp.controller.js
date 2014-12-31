@@ -11,14 +11,45 @@ exports.refinedSearch = function(req, res) {
   //Receives request made by the YELPER service with category * location
   // console.log('This is your request sir', req.params);
   //Parses the request to separate Category from Location
-  var params = req.params[0].split('*');
-  var category = params[0];
-  var location = params[1];
-  var offset = params[2];
-  // console.log(category,location);
-  // console.log('Seaching for food locations');
-  //The Yelp api expects requests in the form of : Category*Location 
-  Yelp.search({term: category, location: location, offset: offset}, function(error, data) {
+
+  var categoryMap = {
+    Restaurants: 'restaurants',
+    Italian: 'italian',
+    Thai: 'thai',
+    American: 'tradamerican',
+    French: 'french',
+    Japanese: 'japanese',
+    Chinese: 'chinese',
+    Seafood: 'seafood',
+    Ethopian: 'ethopian',
+    Burmese: 'burmese',
+    Mexican: 'mexican',
+    Mediterranean: 'mediterranean',
+    'Middle Eastern': 'mideastern',
+    'Soul Food': 'soulfood',
+    Korean: 'korean',
+    Brazilian: 'brazilian',
+    German: 'german',
+  };
+
+  var term = 'Food';
+  var location = req.body.location;
+  var offset = req.body.offset;
+  var categories = '';
+
+  for (var i=0; i<req.body.categories.length; i++){
+    categories += categoryMap[req.body.categories[i]] += ',';
+  }
+  categories = categories.slice(0,-1);
+
+  var yelpParams = {
+    term: term,
+    location: location,
+    category_filter: categories,
+    offset: offset
+  }
+
+  Yelp.search(yelpParams, function(error, data) {
     if (error) console.log('ERROR IN YELP CONTROLLER', error);
     var result = data;
     var arr = [];
@@ -35,7 +66,7 @@ exports.refinedSearch = function(req, res) {
         city:result['businesses'][i].location.city
       });
     }
-    // console.log(arr);
+    
     return res.json(200, arr);
   });
 };

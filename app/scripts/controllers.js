@@ -166,12 +166,6 @@ angular.module('Appeteyes.controllers', [])
     $scope.userPreferences = Preferences.importPreferences();
     console.log('user prefs pulled from db on load', $scope.userPreferences);
 
-    //remove once importing from factory/server works
-    // $scope.userPreferences = {
-    //   cuisines: ['Thai', 'American', 'Japanese'],
-    //   location: 'San Francisco',
-    // };
-
     //pre-select options from imported preferences
     //set the imported cuisines
     for (var i=0; i<$scope.userPreferences.cuisines.length; i++){
@@ -261,9 +255,11 @@ angular.module('Appeteyes.controllers', [])
     //populate userPreferences object with selected cuisine options
     Fooder.isNotLoaded = true;
     $scope.userPreferences.cuisines = [];
+    console.log($scope.selectedOption.Cuisines);
     for (var key in $scope.selectedOption.Cuisines){
       $scope.userPreferences.cuisines.push(key);
     }
+    // console.log($scope.userPreferences.cuisines);
     Fooder.resetPics();
     //use factory to send the updated user preferences to the server
     Preferences.savePreferences($scope.userPreferences);
