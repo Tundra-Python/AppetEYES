@@ -61,7 +61,7 @@ angular.module('Appeteyes.services', [])
         location: parsedLoc, //string
         offset: offset  //number
       }
-      return $http.get('/yelp/search' + searchData);
+      return $http.post('/yelp/search', searchData);
     },
     pics: function(){
       // return pictures;
@@ -142,7 +142,7 @@ angular.module('Appeteyes.services', [])
     'Japanese',
     'Chinese',
     'Seafood',
-    'Ethopian/Eritrean',
+    'Ethopian',
     'Burmese',
     'Mexican',
     'Mediterranean',

@@ -26,7 +26,7 @@ app.get('/users/signedin', user.checkAuth);
 app.use(user.decode);
 
 //get yelp search results
-app.get('/yelp/*', yelp.refinedSearch);
+app.post('/yelp/search', yelp.refinedSearch);
 
 //user-picture history changes
 app.get('/users/likes', imageInfo.getUserLikes);
