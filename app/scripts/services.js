@@ -134,7 +134,7 @@ angular.module('Appeteyes.services', [])
 })
 
 //Holds the logic for users to set up their 'preferences'
-.factory('Preferences', function($http){
+.factory('Preferences', function($http, $state){
   //temp storage mechanism for cuisine types
   var cuisines = [
     'Give Me Random!',
@@ -200,7 +200,7 @@ angular.module('Appeteyes.services', [])
       userPreferences.cuisines = newPreferences.cuisines;
       userPreferences.location = newPreferences.location;
       //send POST request to server with userSettings as data
-      
+
       $http.post('/users/preferences', userPreferences)
         .then(function(){
           $state.transitionTo('tab.appeteyes');
