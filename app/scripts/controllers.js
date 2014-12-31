@@ -129,7 +129,8 @@ angular.module('Appeteyes.controllers', [])
   $scope.food = Fooder.searchFood($stateParams.name);
   console.log($scope.food);
   $scope.back = function(){
-    $state.transitionTo('tab.myFoodies');
+    console.log('hi');
+    $state.transitionTo('tab.account');
   }
 })
 
