@@ -40,6 +40,12 @@ input.city-input{
   border-radius: 5px;
 }
 
+.swipe.button.button-block,
+.button.button-full {
+margin: 0;
+border: 0;
+}
+
 /*This builds a mobile sized container on full size browser screens*/
 @media (min-width: 800px) {
   .view {
