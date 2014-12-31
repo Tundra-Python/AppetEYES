@@ -55,15 +55,13 @@ angular.module('Appeteyes.services', [])
 
   return {
     search: function(categories, location, offset){
+      var parsedLoc = location.split(' ').join('-');
       var searchData = {
         categories: categories, //array
-        location: location, //string
+        location: parsedLoc, //string
         offset: offset  //number
       }
-      var parsedLoc = location.split(' ').join('-');
-      console.log('This is the thin',parsedLoc);
-      var yelpUrl = category + '*' + parsedLoc + '*' + offset;
-      return $http.get('/yelp/' + yelpUrl);
+      return $http.get('/yelp/search' + searchData);
     },
     pics: function(){
       // return pictures;
