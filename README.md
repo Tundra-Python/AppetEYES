@@ -22,8 +22,8 @@ In order to prepare a launchable phone app:
   - Show only pictures that were previously unseen  
 
 **Other Ideas:**  
-Allow users to upload images  
-Allow multiple pictures per restaurant  
-Accrue stats on likes/dislikes for each image and allow people to see stats  
-Splash screen on login  
+- Allow users to upload images  
+- Allow multiple pictures per restaurant  
+- Accrue stats on likes/dislikes for each image and allow people to see stats  
+- Splash screen on login  
 
